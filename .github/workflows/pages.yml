@@ -20,18 +20,46 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/configure-pages@v5
+      - name: Check out data bucket
+        uses: actions/checkout@v6
+        with:
+          path: bucket
+
+      - name: Check out shared builder
+        uses: actions/checkout@v6
+        with:
+          repository: TyrEamon/xrw-album
+          ref: main
+          path: site
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build static data bucket
+        run: node site/scripts/build-data-bucket.js
+        env:
+          BUCKET_ID: xrw-data-1
+          BUCKET_SNAPSHOT_DATA_DIR: bucket/batches
+          BUCKET_OUT_DIR: bucket/public/data
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
         with:
           enablement: true
-      - uses: actions/upload-pages-artifact@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: public
-      - id: deployment
+          path: bucket/public
+
+      - name: Deploy GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
