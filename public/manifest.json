@@ -1,1 +1,1 @@
-{"version":1,"shard":1,"minGalleryId":1,"maxGalleryId":33720,"albumCount":6990,"photoCount":372483,"tagCount":12664,"catalog":"catalog/albums.json.gz","detailPattern":"photo-shards/{shard}.json.gz","updatedAt":"2026-08-23T06:34:55Z"}
+{"version":1,"shard":1,"minGalleryId":1,"maxGalleryId":33720,"albumCount":6946,"photoCount":370038,"tagCount":12582,"catalog":"catalog/albums.json.gz","detailPattern":"photo-shards/{shard}.json.gz","updatedAt":"2026-08-23T06:31:45Z"}
